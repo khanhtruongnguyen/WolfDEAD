@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WolfDEAD v3.2 - Sới Ma Sói Đấu Khẩu & Hậu Trường Sau Trận</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>🐺</text></svg>">
+</head>
+<body class="night-mode">
+
+    <div class="atmosphere">
+        <div class="moon"></div>
+        <div class="mist"></div>
+    </div>
+
+    <!-- ==================== MÀN HÌNH MENU CHÍNH (MAIN MENU) ==================== -->
+    <div id="main-menu-screen" class="main-menu-overlay active">
+        <div class="menu-container">
+            <div class="menu-hero">
+                <div class="menu-logo">🐺</div>
+                <h1 class="menu-title">WolfDEAD v3.2</h1>
+                <p class="menu-subtitle">Sới Ma Sói Đấu Khẩu Thực Chiến • Mỗi Role 1 Model AI • Chết Ẩn Vai • Hậu Trường Sau Trận</p>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">👤 Thông Tin Người Chơi</div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">Tên của bạn trên sới (Các AI không hề biết bạn là người thật):</label>
+                    <input type="text" id="menu-player-name" class="form-input" value="Tuấn" placeholder="Nhập tên của bạn...">
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">
+                    <span>🎭 Cấu Hình Vai Trò Trên Bàn</span>
+                    <span id="menu-total-players" style="margin-left:auto; color:#7ee787; font-size:12px;">Tổng: 6 người</span>
+                </div>
+                <div class="role-config-grid">
+                    <div class="role-config-item">
+                        <div class="role-config-info">
+                            <span class="role-config-name" style="color:#ff7b72;">🐺 Ma Sói</span>
+                            <span class="role-config-desc">Mỗi Sói cắn 1 người/đêm</span>
+                        </div>
+                        <div class="role-stepper">
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('werewolf', -1)">-</button>
+                            <span id="count-werewolf" class="stepper-val">1</span>
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('werewolf', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="role-config-item">
+                        <div class="role-config-info">
+                            <span class="role-config-name" style="color:#d2a8ff;">🧙‍♀️ Phù Thủy</span>
+                            <span class="role-config-desc">1 Cứu, 1 Giết (dùng 1, cả 2 hoặc bỏ qua)</span>
+                        </div>
+                        <div class="role-stepper">
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('witch', -1)">-</button>
+                            <span id="count-witch" class="stepper-val">1</span>
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('witch', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="role-config-item">
+                        <div class="role-config-info">
+                            <span class="role-config-name" style="color:#79c0ff;">🛡️ Bảo Vệ</span>
+                            <span class="role-config-desc">Bảo vệ 1 người/đêm (không trùng 2 đêm)</span>
+                        </div>
+                        <div class="role-stepper">
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('bodyguard', -1)">-</button>
+                            <span id="count-bodyguard" class="stepper-val">1</span>
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('bodyguard', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="role-config-item">
+                        <div class="role-config-info">
+                            <span class="role-config-name" style="color:#7ee787;">🧑‍🌾 Dân Làng</span>
+                            <span class="role-config-desc">Đấu khẩu & bỏ phiếu tìm Ma Sói</span>
+                        </div>
+                        <div class="role-stepper">
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('villager', -1)">-</button>
+                            <span id="count-villager" class="stepper-val">3</span>
+                            <button class="stepper-btn" onclick="window.game.adjustRoleCount('villager', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">🔥 Luật Sới & Cơ Chế Bản v3.2</div>
+                <ul class="rules-summary-list">
+                    <li>🍻 <strong>Chế Độ Trò Chuyện Sau Trận Đấu (MỚI!):</strong> Sau khi ván đấu kết thúc và lật toàn bộ bài, cả người sống lẫn người chết đều thức dậy ở Phòng Chat Hậu Trường để xả giận, gáy bẩn, đổ lỗi và đối đáp tự do với bạn!</li>
+                    <li>📜 <strong>Bảng Luật & Cơ Chế 4 Lá Bài Cho AI:</strong> AI nắm rõ cơ chế tương tác giữa <em>Dân Làng - Ma Sói - Bảo Vệ - Phù Thủy</em>.</li>
+                    <li>🔒 <strong>Chết Không Lộ Role & Tối Đa 5 Turn:</strong> Khi chết giữ kín Role đến cuối ván. Đấu khẩu tối đa <strong>5 Turn/ngày</strong>.</li>
+                    <li>🧠 <strong>Mỗi Role 1 Model AI + 2 Lõi (Tính Cách & Kho):</strong> Đấu khẩu thực chiến cực gắt (xưng <em>tao - mày</em>), bỏ phiếu kèm lý do rõ ràng.</li>
+                </ul>
+            </div>
+
+            <div class="menu-actions">
+                <button id="btn-menu-start" class="btn-start-big">🔥 VÀO SỚI MA SÓI NGAY</button>
+                <div class="menu-sub-actions">
+                    <button id="btn-menu-settings" class="btn-icon" style="flex:1; justify-content:center; padding:10px;">⚙️ Danh Sách Models AI</button>
+                    <button id="btn-menu-arch" class="btn-icon" style="flex:1; justify-content:center; padding:10px;">📘 Bảng Luật & Kiến Trúc 2 Lõi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== THANH TIÊU ĐỀ TRÊN CÙNG ==================== -->
+    <header class="top-nav">
+        <div class="brand">
+            <h1>🐺 WolfDEAD</h1>
+            <span class="badge">DUAL-CORE v3.2</span>
+        </div>
+        <div class="nav-actions">
+            <button id="btn-open-menu" class="btn-icon">🏠 Menu Chính</button>
+            <button id="btn-open-vaults" class="btn-icon" style="border-color:rgba(240,136,62,0.5); color:#f0883e;">🔥 Xem 2 Lõi (Tính Cách + Kho)</button>
+            <button id="btn-sound-toggle" class="btn-icon">🔊 Âm thanh</button>
+            <button id="btn-open-settings" class="btn-icon">⚙️ Models</button>
+            <button id="btn-restart" class="btn-icon btn-primary">🔄 Ván Mới</button>
+        </div>
+    </header>
+
+    <!-- Biểu ngữ trạng thái vòng chơi -->
+    <div class="phase-banner">
+        <div id="phase-tag" class="phase-tag night">🌙 Chuẩn bị</div>
+        <div id="phase-instruction" class="phase-instruction">Hãy cấu hình sới bạc tại Menu Chính để bắt đầu...</div>
+        <div id="turn-counter-pill" class="turn-counter-pill" style="display:none;">Turn 1/5</div>
+        <div id="active-model-badge" class="active-model-badge">⚡ AI: Multi-Model</div>
+    </div>
+
+    <!-- Khung chính bàn chơi -->
+    <main class="game-container">
+        <section id="players-grid" class="players-grid"></section>
+
+        <section class="feed-section">
+            <div class="feed-header">
+                <span>🔥 SỚI ĐẤU KHẨU CHUNG & HẬU TRƯỜNG SAU TRẬN</span>
+                <span id="alive-count-text">Sới Ma Sói AI</span>
+            </div>
+            <div id="feed-messages" class="feed-messages"></div>
+        </section>
+
+        <section id="action-dock" class="action-dock">
+            <div class="dock-header">
+                <span id="dock-title" class="dock-title">🎙️ Đấu khẩu & Phán quyết</span>
+                <div id="quick-replies" class="quick-replies"></div>
+            </div>
+            <div class="dock-input-row">
+                <input type="text" id="dock-input" class="dock-input" placeholder="Nhập lời đấu khẩu hoặc lý do vote của mày tại đây..." disabled autocomplete="off">
+                <button id="btn-send" class="btn-send" disabled>💬 Phát biểu & Trò chuyện tiếp</button>
+                <button id="btn-stop-chat" class="btn-stop-chat" disabled style="display:none;">🗳️ Phát biểu & Đòi Vote ngay</button>
+                <button id="btn-skip" class="btn-skip" disabled>Bỏ qua</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== CÁC MODAL DIALOG ==================== -->
+
+    <!-- 1. Modal Bốc Thăm Thân Phận -->
+    <div id="role-modal" class="modal-overlay">
+        <div class="modal-card role-reveal-box">
+            <div id="modal-role-icon" class="role-icon-large">🐺</div>
+            <h2 id="modal-role-name" class="role-name-large">MA SÓI</h2>
+            <p id="modal-role-desc" class="role-desc-text">Mô tả vai trò của bạn...</p>
+            <div id="modal-role-extra" style="font-size:13px; color:#c9d1d9; margin-bottom:18px;"></div>
+            <button id="btn-role-confirm" class="btn-send" style="width:100%; padding:12px; font-size:15px;">Đã Nhận Vai & Bắt Đầu Đêm 1</button>
+        </div>
+    </div>
+
+    <!-- 2. Modal Chọn Mục Tiêu Ban Đêm -->
+    <div id="night-action-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 id="night-title" class="modal-title">🌙 Lượt Hành Động Ban Đêm</h3>
+            <div id="night-body"></div>
+        </div>
+    </div>
+
+    <!-- 3. Modal Xem 2 Lõi Của Từng Vai -->
+    <div id="vault-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 740px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <h3 class="modal-title" style="margin-bottom:0;">🔥 Kiến Trúc 2 Lõi Từng Vai (Lõi Tính Cách + Lõi Kho)</h3>
+                <label style="font-size:12px; color:#d2a8ff; cursor:pointer; display:flex; align-items:center; gap:6px;">
+                    <input type="checkbox" id="toggle-god-vault"> 👁️ Mở khóa xem tất cả Role AI
+                </label>
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                Lưu ý: Kể cả khi người chơi đã chết, Role và Lõi Kho vẫn được giữ bí mật cho đến cuối ván (trừ khi bạn tích mở khóa quyền Quản Trò).
+            </p>
+            <div id="vault-tabs" class="vault-tabs"></div>
+            <div id="vault-content-body" style="max-height: 58vh; overflow-y: auto;"></div>
+            <button id="btn-close-vault" class="btn-skip" style="margin-top:14px; width:100%;">Đóng Cửa Sổ</button>
+        </div>
+    </div>
+
+    <!-- 4. Modal Giải Thích Bảng Luật & Kiến Trúc 2 Lõi -->
+    <div id="arch-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 680px;">
+            <h3 class="modal-title">📘 Bảng Tóm Tắt Luật 4 Lá Bài & Kiến Trúc 2 Lõi</h3>
+            <div style="font-size:13px; color:#c9d1d9; line-height:1.65; display:flex; flex-direction:column; gap:10px;">
+                <p><strong>1. Bảng Tóm Tắt Luật & 4 Lá Bài nạp cho AI:</strong><br>
+                • 🐺 <strong>Ma Sói:</strong> Mỗi Sói cắn 1 người/đêm. Ban ngày giả làm Dân hoặc nhận vơ vai chức năng.<br>
+                • 🛡️ <strong>Bảo Vệ:</strong> Mỗi đêm canh gác 1 người khỏi vết cắn Sói (không trùng 1 người 2 đêm liên tiếp, không chặn được Bình Giết của Phù Thủy).<br>
+                • 🧙‍♀️ <strong>Phù Thủy:</strong> Có 1 Bình Cứu và 1 Bình Giết cho cả ván. Trong đêm biết ai bị cắn, được chọn Cứu, Giết, dùng CẢ 2 bình cùng đêm, hoặc Không hành động.<br>
+                • 🧑‍🌾 <strong>Dân Làng:</strong> Không có kỹ năng đêm, dùng lập luận và lá phiếu để tìm Sói.</p>
+                <p><strong>2. Luật Ẩn Vai Khi Chết (No Role Reveal):</strong><br>
+                Khi bất kỳ ai chết (đêm hay bị treo cổ), vai trò thật của họ <strong>không được tiết lộ</strong>. Sói có thể lợi dụng điều này để cướp vai người chết!</p>
+                <p><strong>3. Phòng Chat Hậu Trường Sau Trận Đấu (Post-Game Lobby):</strong><br>
+                Ngay khi ván đấu kết thúc và lật toàn bộ bài, bạn có thể bấm vào <strong>Phòng Chat Sau Trận</strong> để cùng cả 5 AI (cả sống lẫn chết) xả giận, gáy bẩn, đổ lỗi và chửi nhau tự do không giới hạn!</p>
+            </div>
+            <button id="btn-close-arch" class="btn-send" style="margin-top:16px; width:100%;">Đã Hiểu</button>
+        </div>
+    </div>
+
+    <!-- 5. Modal Cài Đặt API & Xoay Vòng Models -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 580px;">
+            <h3 class="modal-title">⚙️ Danh Sách Models AI Phân Bổ Cho Các Role</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+                Mỗi ghế AI sẽ nhận 1 Model riêng trong danh sách dưới đây. Nếu Model riêng của ghế đó gặp lỗi mạng/403, hệ thống tự động xoay sang Model kế tiếp.
+            </p>
+
+            <div class="form-group">
+                <label class="form-label">API Key</label>
+                <input type="password" id="settings-api-key" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Base URL (OpenAI Compatible)</label>
+                <input type="text" id="settings-base-url" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Danh Sách Model Cho Các Ghế AI</label>
+                <div id="settings-model-list" class="model-list-box" style="margin-bottom:8px;"></div>
+                <textarea id="settings-models-textarea" class="form-input" rows="5" placeholder="Nhập mỗi dòng 1 model ID..."></textarea>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:16px;">
+                <button id="btn-test-models" class="btn-icon" style="flex:1;">Kiểm tra độ trễ (Ping Test)</button>
+                <button id="btn-save-settings" class="btn-send" style="padding:10px 18px;">Lưu Cài Đặt</button>
+                <button id="btn-close-settings" class="btn-skip">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Modal Kết Thúc Ván -->
+    <div id="game-over-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 680px; text-align:center;">
+            <div id="game-over-icon" style="font-size: 56px; margin-bottom:10px;">🏆</div>
+            <h2 id="game-over-title" class="role-name-large" style="color:#f0883e;">KẾT QUẢ SỚI BẠC</h2>
+            <p id="game-over-desc" class="role-desc-text"></p>
+
+            <h4 style="font-size:14px; text-align:left; margin:16px 0 8px 0; color:#58a6ff;">👁️ BẢNG LẬT BÀI CUỐI VÁN (VAI THẬT, MODEL RIÊNG & LÕI TÍNH CÁCH):</h4>
+            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:12.5px; background:#0d1117; border-radius:8px; overflow:hidden;">
+                <thead>
+                    <tr style="background:#1f242c; color:var(--text-muted);">
+                        <th style="padding:8px;">Người chơi & Lõi Tính Cách</th>
+                        <th style="padding:8px;">Vai thật</th>
+                        <th style="padding:8px;">Model AI</th>
+                        <th style="padding:8px;">Nguyên nhân thật</th>
+                    </tr>
+                </thead>
+                <tbody id="game-over-table-body"></tbody>
+            </table>
+
+            <!-- Nút nổi bật vào Phòng Chat Sau Trận -->
+            <button id="btn-gameover-postchat" class="btn-start-big" style="width:100%; margin-top:16px; padding:13px; font-size:15px;">
+                🍻 VÀO PHÒNG CHAT SAU TRẬN (CẢ BÀN XẢ GIẬN / GÁY BẨN)
+            </button>
+
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button id="btn-gameover-vaults" class="btn-icon" style="flex:1; justify-content:center; padding:11px;">🔥 Xem 2 Lõi Từng Role</button>
+                <button id="btn-play-again" class="btn-send" style="flex:1; padding:11px; font-size:14px;">Chơi Ván Mới 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="ai.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
